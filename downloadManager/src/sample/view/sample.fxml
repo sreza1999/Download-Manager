@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.Controller">
+    <columnConstraints>
+        <ColumnConstraints />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints />
+    </rowConstraints>
+    <children>
+        <AnchorPane prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: lightgray;">
+            <children>
+                <AnchorPane layoutX="21.0" layoutY="81.0" prefHeight="394.0" prefWidth="200.0" style="-fx-background-color: white;" />
+                <ScrollPane layoutX="247.0" layoutY="81.0" prefHeight="394.0" prefWidth="529.0">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="394.0" prefWidth="528.0">
+                            <children>
+                                <ListView layoutX="-1.0" layoutY="1.0" prefHeight="394.0" prefWidth="529.0" />
+                            </children></AnchorPane>
+                    </content>
+                </ScrollPane>
+                <Button fx:id="AddUrl" layoutX="685.0" layoutY="24.0" mnemonicParsing="false" onAction="#getUrl" prefHeight="26.0" prefWidth="73.0" text="Add Url" />
+                <TextField fx:id="textfiled" layoutX="237.0" layoutY="24.0" prefHeight="33.0" prefWidth="427.0" />
+                <MenuButton layoutX="51.0" layoutY="24.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="120.0" text="Menu">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="sort" />
+                        <MenuItem mnemonicParsing="false" text="category" />
+                    </items>
+                </MenuButton>
+                <Label layoutX="56.0" layoutY="57.0" prefHeight="17.0" prefWidth="111.0" style="-fx-alignment: center;" text="category" textAlignment="JUSTIFY" />
+            </children>
+        </AnchorPane>
+    </children>
+</GridPane>
