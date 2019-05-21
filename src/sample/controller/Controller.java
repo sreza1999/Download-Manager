@@ -85,7 +85,7 @@ public class Controller {
 
 
 
-    public void setColumn() throws MalformedURLException {
+    public void setColumn(){
         ObservableList details = downloader.getNameDetail();
         nameColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
         downloadView.setItems(details);
