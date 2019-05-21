@@ -1,14 +1,22 @@
 package sample.model;
 
+import java.math.BigInteger;
 import java.net.URL;
 
 public class File {
 
 
-
+    public File(String name, BigInteger size, String date, URL url, String status, String type) {
+        this.name = name;
+        this.size = size;
+        this.date = date;
+        this.url = url;
+        this.status = status;
+        this.type = type;
+    }
 
     private String name;
-    private double size;
+    private BigInteger size;
     private String date;
     private URL url;
     private String status;
@@ -30,11 +38,11 @@ public class File {
         this.name = name;
     }
 
-    public double getSize() {
+    public BigInteger getSize() {
         return size;
     }
 
-    public void setSize(double size) {
+    public void setSize(BigInteger size) {
         this.size = size;
     }
 
