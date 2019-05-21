@@ -1,13 +1,10 @@
 package sample.model;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 
-import java.io.BufferedInputStream;
-import java.io.FileOutputStream;
+import java.io.File;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -20,44 +17,57 @@ import java.util.ArrayList;
 public class Downloader {
 
 
-    public ArrayList<File> files = new ArrayList<>();
+    static ArrayList<FileDownload> fileDownloads = new ArrayList<>();
 
 
-    public BigInteger getFileSize(String url) throws IOException {
+    public int getFileSize(String url1) throws MalformedURLException {
 
-        URL url1 = new URL(url);
+        URL url = new URL(url1);
+        URLConnection conn = null;
+        try {
+            conn = url.openConnection();
+            if (conn instanceof HttpURLConnection) {
+                ((HttpURLConnection) conn).setRequestMethod("HEAD");
+            }
+            conn.getInputStream();
+            return conn.getContentLength();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
 
-        HttpURLConnection conecction = (HttpURLConnection) url1.openConnection();
-        conecction.getInputStream();
-        BigInteger size = BigInteger.valueOf(conecction.getContentLength());
-        return size;
+
+        } finally {
+            if (conn instanceof HttpURLConnection) {
+                ((HttpURLConnection) conn).disconnect();
+            }
+        }
     }
 
-
-//    public void resumeDownload(String url) throws IOException {
-//
-//        int fileLength = getFileSize(url);
-//        URLConnection connection=null;
-//
-//        URL url1 = new URL(url);
-//        HttpURLConnection httpConnection = (HttpURLConnection) url1.openConnection();
-////        httpConnection.setRequestMethod("HEAD");
-////        long removeFileSize = httpConnection.getContentLengthLong();
+//    public void resumeDownload(String url1) throws IOException {
 //
 //
-//        long existingFileSize = url.substring(url.lastIndexOf("/")+1).length();
+//        int index = search(url1);
+//        String fileName = fileDownloads.get(index).getName();
+//
+//        URL url = new URL(url1);
+//        HttpURLConnection httpConnection = (HttpURLConnection) url.openConnection();
+//        httpConnection.setRequestMethod("HEAD");
+//        long removeFileSize = httpConnection.getContentLengthLong();
+//        long existingFileSize = fileName.length();
 //        if (existingFileSize < fileLength) {
-//
-//            connection.setRequestProperty(
+//            URLConnection httpFileConnection = null;
+//            httpFileConnection.setRequestProperty(
 //                    "Range",
-//                    "bytes=" + existingFileSize + "-" + fileLength);
+//                    "bytes=" + existingFileSize + "-" + fileLength
+//            );
 //        }
+//
+//
 //    }
 
 
-    public void addFile(File file) {
+    public void addFile(FileDownload fileDownload) {
 
-        files.add(file);
+        fileDownloads.add(fileDownload);
 
 
     }
@@ -71,39 +81,30 @@ public class Downloader {
         return time.format(formatter);
     }
 
-    public int search(String url) throws MalformedURLException {
+    static int search(String url) throws MalformedURLException {
 
         URL url1 = new URL(url);
 
-        for (int i = 0; i < files.size(); i++) {
-            if (files.get(i).getUrl().equals(url1)) {
+        for (int i = 0; i < fileDownloads.size(); i++) {
+            if (fileDownloads.get(i).getUrl().equals(url1)) {
                 return i;
             }
         }
         return -1;
     }
 
-    public ObservableList getNameDetail(){
-        ArrayList<String> names = new ArrayList<>();
-        for(int i=0;i<files.size();i++){
-           names.add(files.get(i).getName());
+    public ObservableList getDetail() {
+        ArrayList<FileDownload> d = new ArrayList<>();
+        for (int i = 0; i < fileDownloads.size(); i++) {
+
+            d.add(fileDownloads.get(i));
         }
-        ObservableList<String> detail = FXCollections.observableArrayList(names);
+        ObservableList<FileDownload> detail = FXCollections.observableArrayList(d);
 
         return detail;
     }
-
-    public ObservableList getsizeDetail(){
-        ArrayList<BigInteger> size = new ArrayList<>();
-        for(int i=0;i<files.size();i++){
-            size.add(files.get(i).getSize());
-        }
-        ObservableList<BigInteger> detail = FXCollections.observableArrayList(size);
-
-        return detail;
-    }
-
 }
+
 
 
 

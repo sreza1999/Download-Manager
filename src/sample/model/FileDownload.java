@@ -3,10 +3,10 @@ package sample.model;
 import java.math.BigInteger;
 import java.net.URL;
 
-public class File {
+public class FileDownload {
 
 
-    public File(String name, BigInteger size, String date, URL url, String status, String type) {
+    public FileDownload(String name, int size, String date, URL url, String status, String type) {
         this.name = name;
         this.size = size;
         this.date = date;
@@ -16,11 +16,12 @@ public class File {
     }
 
     private String name;
-    private BigInteger size;
+    private int size;
     private String date;
     private URL url;
     private String status;
     private String type;
+    private int resumeFlag=0;
 
     public String getType() {
         return type;
@@ -38,11 +39,11 @@ public class File {
         this.name = name;
     }
 
-    public BigInteger getSize() {
+    public int getSize() {
         return size;
     }
 
-    public void setSize(BigInteger size) {
+    public void setSize(int size) {
         this.size = size;
     }
 
@@ -68,5 +69,13 @@ public class File {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public int getResumeFlag() {
+        return resumeFlag;
+    }
+
+    public void setResumeFlag(int resumeFlag) {
+        this.resumeFlag = resumeFlag;
     }
 }
