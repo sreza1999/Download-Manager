@@ -17,27 +17,27 @@ import java.util.ArrayList;
 public class Downloader {
 
 
-    static ArrayList<FileDownload> fileDownloads = new ArrayList<>();
+    public  static ArrayList<FileDownload> files = new ArrayList<>();
 
 
-    public int getFileSize(String url1) throws MalformedURLException {
+    public double getFileSize(String url1) throws MalformedURLException {
 
         URL url = new URL(url1);
-        URLConnection conn = null;
+        URLConnection connection = null;
         try {
-            conn = url.openConnection();
-            if (conn instanceof HttpURLConnection) {
-                ((HttpURLConnection) conn).setRequestMethod("HEAD");
+            connection = url.openConnection();
+            if (connection instanceof HttpURLConnection) {
+                ((HttpURLConnection) connection).setRequestMethod("HEAD");
             }
-            conn.getInputStream();
-            return conn.getContentLength();
+            connection.getInputStream();
+            return connection.getContentLength();
         } catch (IOException e) {
             throw new RuntimeException(e);
 
 
         } finally {
-            if (conn instanceof HttpURLConnection) {
-                ((HttpURLConnection) conn).disconnect();
+            if (connection instanceof HttpURLConnection) {
+                ((HttpURLConnection) connection).disconnect();
             }
         }
     }
@@ -45,20 +45,19 @@ public class Downloader {
 //    public void resumeDownload(String url1) throws IOException {
 //
 //
-//        int index = search(url1);
-//        String fileName = fileDownloads.get(index).getName();
-//
 //        URL url = new URL(url1);
+//        FileDownload d ;
+//        d=search(url1);
+//        File file =new File(d.getPath());
 //        HttpURLConnection httpConnection = (HttpURLConnection) url.openConnection();
 //        httpConnection.setRequestMethod("HEAD");
 //        long removeFileSize = httpConnection.getContentLengthLong();
-//        long existingFileSize = fileName.length();
-//        if (existingFileSize < fileLength) {
+//        long existingFileSize = file.length();
+//        if (existingFileSize < d.getSize()) {
 //            URLConnection httpFileConnection = null;
 //            httpFileConnection.setRequestProperty(
 //                    "Range",
-//                    "bytes=" + existingFileSize + "-" + fileLength
-//            );
+//                    "bytes=" + existingFileSize + "-" + d.getSize());
 //        }
 //
 //
@@ -67,7 +66,7 @@ public class Downloader {
 
     public void addFile(FileDownload fileDownload) {
 
-        fileDownloads.add(fileDownload);
+        files.add(fileDownload);
 
 
     }
@@ -81,27 +80,40 @@ public class Downloader {
         return time.format(formatter);
     }
 
-    static int search(String url) throws MalformedURLException {
+   public static   int search(String url) throws MalformedURLException {
 
-        URL url1 = new URL(url);
+        int d =0;
 
-        for (int i = 0; i < fileDownloads.size(); i++) {
-            if (fileDownloads.get(i).getUrl().equals(url1)) {
-                return i;
+
+        for (int i = 0; i < files.size(); i++) {
+            if (files.get(i).getUrl().equals(url)) {
+                 d=i;
             }
         }
-        return -1;
+
+        return d ;
     }
 
     public ObservableList getDetail() {
         ArrayList<FileDownload> d = new ArrayList<>();
-        for (int i = 0; i < fileDownloads.size(); i++) {
+        for (int i = 0; i < files.size(); i++) {
 
-            d.add(fileDownloads.get(i));
+            d.add(files.get(i));
         }
         ObservableList<FileDownload> detail = FXCollections.observableArrayList(d);
 
         return detail;
+    }
+
+
+
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
     }
 }
 

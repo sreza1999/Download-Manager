@@ -1,12 +1,11 @@
 package sample.model;
 
-import java.math.BigInteger;
 import java.net.URL;
 
 public class FileDownload {
 
 
-    public FileDownload(String name, int size, String date, URL url, String status, String type) {
+    public FileDownload(String name, double size, String date, URL url, String status, String type) {
         this.name = name;
         this.size = size;
         this.date = date;
@@ -16,12 +15,60 @@ public class FileDownload {
     }
 
     private String name;
-    private int size;
+    private double size;
     private String date;
     private URL url;
     private String status;
     private String type;
     private int resumeFlag=0;
+    private String path;
+    private double downloaded;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public double getDownloaded() {
+        return downloaded;
+    }
+
+    public void setDownloaded(double downloaded) {
+        this.downloaded = downloaded;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
 
     public String getType() {
         return type;
@@ -39,11 +86,11 @@ public class FileDownload {
         this.name = name;
     }
 
-    public int getSize() {
+    public double getSize() {
         return size;
     }
 
-    public void setSize(int size) {
+    public void setSize(double size) {
         this.size = size;
     }
 
