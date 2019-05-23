@@ -15,9 +15,44 @@ import java.util.ArrayList;
 
 
 public class Downloader {
-
-
+    
+    public  static ArrayList<String> search_result = new ArrayList<>();
     public  static ArrayList<FileDownload> files = new ArrayList<>();
+    
+    public ArrayList<String> search(String name)
+    {
+        for(int loop=0;loop<files.size();loop++)
+        {
+            if(files.get(loop).getName().equals(name)) 
+            {
+                search_result.add(files.get(loop).getName());
+            }
+            if(files.get(loop).getStatus().equals(name)) 
+            {
+                search_result.add(files.get(loop).getStatus());
+            }
+            if(files.get(loop).getPath().equals(name)) 
+            {
+                search_result.add(files.get(loop).getpath());
+            }
+            if(files.get(loop).getDate().equals(name)) 
+            {
+                search_result.add(files.get(loop).getDate());
+            }
+            if(files.get(loop).getType().equals(name)) 
+            {
+                search_result.add(files.get(loop).getType());
+            }
+            if(files.get(loop).getUrl().equals(name)) 
+            {
+                search_result.add(files.get(loop).getUrl());
+            }
+        }    
+        return search_result;
+        
+    }
+
+    
 
 
     public double getFileSize(String url1) throws MalformedURLException {
