@@ -76,8 +76,8 @@
                </children>
             </AnchorPane>
             <Label fx:id="showMassage" layoutX="237.0" layoutY="50.0" prefHeight="16.0" prefWidth="298.0" />
-            <Button layoutX="442.0" layoutY="459.0" mnemonicParsing="false" onAction="#Test" prefHeight="26.0" prefWidth="71.0" text="Pause" />
-            <Button layoutX="577.0" layoutY="459.0" mnemonicParsing="false" text="Resume" />
+            <Button layoutX="351.0" layoutY="459.0" mnemonicParsing="false" onAction="#Test" prefHeight="26.0" prefWidth="71.0" text="Pause" />
+            <Button layoutX="443.0" layoutY="459.0" mnemonicParsing="false" text="Resume" />
             <ProgressBar fx:id="progress3" layoutX="354.0" layoutY="393.0" prefHeight="20.0" prefWidth="376.0" progress="0.0" />
             <ProgressBar fx:id="progress2" layoutX="354.0" layoutY="364.0" prefHeight="20.0" prefWidth="376.0" progress="0.0" />
             <ProgressBar fx:id="progress1" layoutX="354.0" layoutY="332.0" prefHeight="20.0" prefWidth="376.0" progress="0.0" style=";" />

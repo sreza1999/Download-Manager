@@ -147,6 +147,28 @@ public class Downloader {
     }
 
 
+    public ArrayList searchByName(String name){
+        ArrayList<FileDownload> detail = new ArrayList<>();
+
+        for(int i =0 ; i<files.size();i++){
+
+            if(files.get(i).getName().equals(name)){
+                detail.add(files.get(i));
+
+            }
+        }
+        return detail;
+    }
+
+    public ObservableList searchDetail(String name){
+        ArrayList<FileDownload> d = new ArrayList<>();
+        d=searchByName(name);
+     ObservableList < FileDownload> detail = FXCollections.observableArrayList(d);
+
+        return detail;
+    }
+
+
 //    public void writeFile() throws IOException {
 //        String systemUser = System.getProperty("user.name");
 //
