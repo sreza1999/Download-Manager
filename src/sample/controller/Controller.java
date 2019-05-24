@@ -135,6 +135,7 @@ public class Controller {
 
             resetProgress(downloadingIndex);
 
+
             if (files.get(filesIndex).getSize() == files.get(filesIndex).getDownloaded()) {
                 downloadedFiles.add(files.get(filesIndex));
                 downloadingFiles.remove(downloader.searchDownloading(files.get(filesIndex).getName()));
