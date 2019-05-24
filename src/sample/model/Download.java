@@ -13,7 +13,7 @@ import static sample.model.Downloader.*;
 
 
 public  class Download extends Thread {
-     Controller c1 = new Controller();
+    Controller c1 = new Controller();
 
     public Download(String name) {
         this.setName(name);
@@ -45,11 +45,7 @@ public  class Download extends Thread {
         int temp=0;
         String dir = creatDirectory() + getName().substring(getName().lastIndexOf("/") + 1);
         File file = new File(dir);
-        try {
-            temp=search(name);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+        temp=search(getName().substring(getName().lastIndexOf("/")+1));
 
         try (BufferedInputStream in = new BufferedInputStream(new URL(getName()).openStream());
              FileOutputStream fileOutputStream = new FileOutputStream(dir)) {
@@ -60,10 +56,8 @@ public  class Download extends Thread {
                 double size = file.length();
 
                 size=size/(1024*1024);
-                size=round(size,2);
+                size= rond(size,2);
                 files.get(temp).setDownloaded(size);
-                System.out.println(size);
-//                sleep(2000);
 
 
             }
@@ -192,4 +186,3 @@ public  class Download extends Thread {
 
 
 }
-
