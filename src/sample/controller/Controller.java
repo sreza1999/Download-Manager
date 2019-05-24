@@ -303,6 +303,9 @@ public class Controller {
 
         }
 
+
+
+
         for (int i = 0; i < files.size(); i++) {
             if (!files.get(i).getType().equals("mp4") && !files.get(i).getType().equals("mkv")
                     && !files.get(i).getType().equals("rar") && !files.get(i).getType().equals("zip") && !files.get(i).getType().equals("mp3")) {
