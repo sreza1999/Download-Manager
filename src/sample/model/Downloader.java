@@ -14,53 +14,35 @@ import java.util.ArrayList;
 
 
 public class Downloader {
-<<<<<<< HEAD
+//<<<<<<< HEAD
 
 
     public static ArrayList<FileDownload> files = new ArrayList<>();
     public static ArrayList<FileDownload> downloadedFiles = new ArrayList<>();
     public static ArrayList<FileDownload> downloadingFiles = new ArrayList<>();
     public static ArrayList<FileDownload> failFiles = new ArrayList<>();
-=======
-    
-    public  static ArrayList<String> search_result = new ArrayList<>();
-    public  static ArrayList<FileDownload> files = new ArrayList<>();
-    
-    public ArrayList<String> search(String name)
-    {
-        for(int loop=0;loop<files.size();loop++)
-        {
-            if(files.get(loop).getName().equals(name)) 
-            {
-                search_result.add(files.get(loop).getName());
-            }
-            if(files.get(loop).getStatus().equals(name)) 
-            {
-                search_result.add(files.get(loop).getStatus());
-            }
-            if(files.get(loop).getPath().equals(name)) 
-            {
-                search_result.add(files.get(loop).getpath());
-            }
-            if(files.get(loop).getDate().equals(name)) 
-            {
-                search_result.add(files.get(loop).getDate());
-            }
-            if(files.get(loop).getType().equals(name)) 
-            {
-                search_result.add(files.get(loop).getType());
-            }
-            if(files.get(loop).getUrl().equals(name)) 
-            {
-                search_result.add(files.get(loop).getUrl());
-            }
-        }    
-        return search_result;
-        
-    }
 
-    
->>>>>>> 3654892aa050564bde6d018d57fb574728a8d384
+
+    public ArrayList searchName(String name) {
+        ArrayList<FileDownload> search_result = new ArrayList<>();
+        for (int loop = 0; loop < files.size(); loop++) {
+            if (files.get(loop).getName().equals(name)) {
+                search_result.add(files.get(loop));
+            } else if (files.get(loop).getStatus().equals(name)) {
+                search_result.add(files.get(loop));
+            } else if (files.get(loop).getPath().equals(name)) {
+                search_result.add(files.get(loop));
+            } else if (files.get(loop).getDate().equals(name)) {
+                search_result.add(files.get(loop));
+            } else if (files.get(loop).getType().equals(name)) {
+                search_result.add(files.get(loop));
+            } else if (files.get(loop).getUrl().equals(name)) {
+                search_result.add(files.get(loop));
+            }
+        }
+        return search_result;
+
+    }
 
 
     public double getFileSize(String url1) throws MalformedURLException {
@@ -102,7 +84,7 @@ public class Downloader {
         return time.format(formatter);
     }
 
-    public static int search(String url)  {
+    public static int search(String url) {
 
         int d = -1;
 
@@ -188,36 +170,8 @@ public class Downloader {
     }
 
 
-    public ArrayList searchByName(String name){
-        ArrayList<FileDownload> detail = new ArrayList<>();
-
-        for(int i =0 ; i<files.size();i++){
-
-            if(files.get(i).getName().equals(name)){
-                detail.add(files.get(i));
-
-            }
-        }
-        return detail;
-    }
-
-    public ObservableList searchDetail(String name){
-        ArrayList<FileDownload> d = new ArrayList<>();
-        d=searchByName(name);
-     ObservableList < FileDownload> detail = FXCollections.observableArrayList(d);
-
-        return detail;
-    }
 
 
-//    public void writeFile() throws IOException {
-//        String systemUser = System.getProperty("user.name");
-//
-//        FileWriter saveDetail = new FileWriter("/home/" + systemUser + "/Downloads/downloadManager/text.txt");
-//        for(int i= 0 ; i < files.size();i++){
-//            saveDetail.write(files.get(i));
-//        }
-//    }
 
 }
 

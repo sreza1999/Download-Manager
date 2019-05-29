@@ -1,6 +1,7 @@
 package sample.controller;
 
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -11,9 +12,12 @@ import sample.model.Download;
 import sample.model.Downloader;
 import sample.model.FileDownload;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 import static sample.model.Downloader.*;
 
@@ -63,12 +67,25 @@ public class Controller {
     private TitledPane musicPane = new TitledPane();
     @FXML
     private TitledPane elsePane = new TitledPane();
+    @FXML
+    private TextField search = new TextField();
+    @FXML
+    Label searchLable = new Label();
 
 
-    public void Test() throws MalformedURLException {
+
+//    public static int resumeFlag = 1;
 
 
-    }
+//    public void resume() throws MalformedURLException {
+//
+//        resumeFlag = 1;
+//    }
+
+//    public void puse() throws MalformedURLException {
+//
+//        resumeFlag = -1;
+//    }
 
 
     public void makeFile() {
@@ -91,66 +108,74 @@ public class Controller {
     }
 
 
-    public void startDownloading() throws MalformedURLException {
-        String url = textfiled.getText();
-        makeFile();
-        setColumn();
-        textfiled.setText("");
-        Download d1 = new Download(url);
-        int filesIndex = search(url.substring(url.lastIndexOf("/") + 1));
-        d1.start();
-        downloadingFiles.add(files.get(filesIndex));
-        int downloadingIndex = downloader.searchDownloading(files.get(filesIndex).getName());
-        setProgressLable(downloadingIndex);
+    public void startDownloading() {
+        if (downloadingFiles.size() < 5) {
+            String url = textfiled.getText();
+            makeFile();
+            setColumn();
+            textfiled.setText("");
+            Download d1 = new Download(url);
+            int filesIndex = search(url.substring(url.lastIndexOf("/") + 1));
+            d1.start();
 
 
+            downloadingFiles.add(files.get(filesIndex));
+            int downloadingIndex = downloader.searchDownloading(files.get(filesIndex).getName());
+            setProgressLable(downloadingIndex);
+            System.out.println(downloadingIndex);
 
-        new Thread(() -> {
-            while (files.get(downloadingIndex).getDownloaded() < files.get(downloadingIndex).getSize()) {
 
-                double size = files.get(downloadingIndex).getDownloaded();
-                size = (long) rond(size, 2);
+            new Thread(() -> {
+//&& resumeFlag==1
+                while (files.get(filesIndex).getDownloaded() < files.get(filesIndex).getSize()) {
+
+                    double size = files.get(filesIndex).getDownloaded();
+                    size = (long) rond(size, 2);
 //                System.out.println(size);
-                if (downloadingIndex == 0) {
+                    if (downloadingIndex == 0) {
 
 
-                    progress1.setProgress(size / (int) files.get(downloadingIndex).getSize());
-                } else if (downloadingIndex == 1) {
+                        progress1.setProgress(size / (int) files.get(downloadingIndex).getSize());
+                    } else if (downloadingIndex == 1) {
 
-                    progress2.setProgress(size / (int) files.get(downloadingIndex).getSize());
+                        progress2.setProgress(size / (int) files.get(downloadingIndex).getSize());
 
 
-                } else if (downloadingIndex == 2) {
+                    } else if (downloadingIndex == 2) {
 
-                    progress3.setProgress(size / (int) files.get(downloadingIndex).getSize());
+                        progress3.setProgress(size / (int) files.get(downloadingIndex).getSize());
 
-                } else if (downloadingIndex == 3) {
+                    } else if (downloadingIndex == 3) {
 
-                    progress4.setProgress(size / (int) files.get(downloadingIndex).getSize());
+                        progress4.setProgress(size / (int) files.get(downloadingIndex).getSize());
+
+                    }
+
 
                 }
+//                if(resumeFlag == 1) {
+
+                resetProgress(downloadingIndex);
+//                resetProgressLable(downloadingIndex);
+//                }
+
+                if (files.get(filesIndex).getSize() == files.get(filesIndex).getDownloaded()) {
+                    downloadedFiles.add(files.get(filesIndex));
+                    downloadingFiles.remove(downloader.searchDownloading(files.get(filesIndex).getName()));
+                    files.get(filesIndex).setStatus("Downloaded");
+                }
+                else {
+                    failFiles.add(files.get(filesIndex));
+                    downloadingFiles.remove(downloader.searchDownloading(files.get(filesIndex).getName()));
+                    files.get(filesIndex).setStatus("fail");
+                }
+            }).start();
 
 
-            }
-
-            resetProgress(downloadingIndex);
-
-
-            if (files.get(filesIndex).getSize() == files.get(filesIndex).getDownloaded()) {
-                downloadedFiles.add(files.get(filesIndex));
-                downloadingFiles.remove(downloader.searchDownloading(files.get(filesIndex).getName()));
-                files.get(filesIndex).setStatus("downloaded");
-            } else {
-                failFiles.add(files.get(filesIndex));
-                downloadingFiles.remove(downloader.searchDownloading(files.get(filesIndex).getName()));
-                files.get(filesIndex).setStatus("fail");
-            }
-        }).start();
-
-
+        }
     }
 
-    public void setTextLable(String massage)  {
+    public void setTextLable(String massage) {
         showMassage.setText(massage);
         showMassage.setTextFill(Color.RED);
 
@@ -166,19 +191,6 @@ public class Controller {
         downloadView.setItems(d);
     }
 
-
-//    public void setColumn(FileDownload d) {
-//
-//
-//        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-//        sizeColumn.setCellValueFactory(new PropertyValueFactory<>("size"));
-//        statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
-//        categoryColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
-////        downloadedColumn.setCellValueFactory(new PropertyValueFactory<>("downloaded"));
-//        progress1.setProgress(22*100);
-//        ObservableList  <FileDownload> detail = FXCollections.observableArrayList(d);
-//        downloadView.setItems(detail);
-//    }
 
     public void resetProgress(int temp) {
 
@@ -242,6 +254,18 @@ public class Controller {
 
     }
 
+    public void setSearchColumn(ArrayList temp) {
+
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        sizeColumn.setCellValueFactory(new PropertyValueFactory<>("size"));
+        statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+        categoryColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+        ObservableList d = FXCollections.observableArrayList(temp);
+
+        downloadView.setItems(d);
+
+    }
+
 
     public void failColumn() {
 
@@ -262,7 +286,7 @@ public class Controller {
         if (temp == 0) {
 
             file1Progress.setText("File 1");
-            file1Progress.setTextFill(Color.RED);
+//            file1Progress.setTextFill(Color.RED);
         } else if (temp == 1) {
             file2Progress.setText("File 2");
             file1Progress.setTextFill(Color.RED);
@@ -304,8 +328,6 @@ public class Controller {
         }
 
 
-
-
         for (int i = 0; i < files.size(); i++) {
             if (!files.get(i).getType().equals("mp4") && !files.get(i).getType().equals("mkv")
                     && !files.get(i).getType().equals("rar") && !files.get(i).getType().equals("zip") && !files.get(i).getType().equals("mp3")) {
@@ -317,6 +339,17 @@ public class Controller {
         musicPane.setContent(music);
         rarPane.setContent(rar);
         elsePane.setContent(Else);
+
+    }
+
+    public void searcher() {
+        ArrayList temp = downloader.searchName(search.getText());
+        if (temp.size() == 0) {
+            searchLable.setText("Not found !!!");
+            searchLable.setTextFill(Color.RED);
+        } else {
+            setSearchColumn(temp);
+        }
 
     }
 

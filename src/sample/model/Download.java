@@ -48,16 +48,18 @@ public  class Download extends Thread {
         temp=search(getName().substring(getName().lastIndexOf("/")+1));
 
         try (BufferedInputStream in = new BufferedInputStream(new URL(getName()).openStream());
-             FileOutputStream fileOutputStream = new FileOutputStream(dir)) {
+             FileOutputStream fileOutputStream = new FileOutputStream(dir,true)) {
+//            in.skip()
             byte[] dataBuffer = new byte[1024];
             int bytesRead;
             while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
                 fileOutputStream.write(dataBuffer, 0, bytesRead);
+//                    if
                 double size = file.length();
-
                 size=size/(1024*1024);
                 size= rond(size,2);
                 files.get(temp).setDownloaded(size);
+
 
 
             }
