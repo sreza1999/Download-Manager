@@ -1,3 +1,2 @@
-# Scu
-this download manager credit by 2 seyed :)
-and name is sadat 
+Simple download manager
+write with java 
